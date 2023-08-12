@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import TopBar from "@/components/TopBar";
 import { Poppins } from "next/font/google";
@@ -8,7 +10,7 @@ const poppins = Poppins({
   weight: ["400", "300", "700", "100", "200", "500"],
 });
 
-export default function DashboardLayout({
+export default function CreateLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -16,9 +18,9 @@ export default function DashboardLayout({
   return (
     <section className={`flex ${poppins.className} bg-[#F5F5FB]`}>
       {/* Include shared UI here e.g. a header or sidebar */}
-      <Navbar path="Dashboard" />
+      <Navbar path="Products" />
       <div className="w-full">
-        <TopBar Title="Dashboard" Desc="Look what you have made today" />
+        <TopBar Title="Create New Product" Desc="Create Your Own Product" />
         {children}
       </div>
     </section>

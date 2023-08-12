@@ -1,11 +1,22 @@
 "use client";
 
-import { Card } from "flowbite-react";
+import { Card, CustomFlowbiteTheme } from "flowbite-react";
 
-export default function DefaultCard({
-  children,
-}: {
+type Props = {
   children: React.ReactNode;
-}) {
-  return <Card className="w-full my-8">{children}</Card>;
+  className?: string;
+};
+
+export default function DefaultCard(prop: Props) {
+  console.log(prop.className);
+  const customTheme: CustomFlowbiteTheme["card"] = {
+    root: {
+      children: `flex h-full flex-col justify-center gap-4 p-6 ${prop.className}`,
+    },
+  };
+  return (
+    <Card theme={customTheme} className={`w-full my-8 `}>
+      {prop.children}
+    </Card>
+  );
 }

@@ -16,9 +16,9 @@ export default function DashboardLayout({
   return (
     <section className={`flex ${poppins.className} bg-[#F5F5FB]`}>
       {/* Include shared UI here e.g. a header or sidebar */}
-      <Navbar path="Dashboard" />
+      <Navbar path="Products" />
       <div className="w-full">
-        <TopBar Title="Dashboard" Desc="Look what you have made today" />
+        <TopBar Title="My Product" Desc="Manage it well and get money" />
         {children}
       </div>
     </section>

@@ -16,7 +16,7 @@ const theme: CustomFlowbiteTheme = {
   },
 };
 
-export default function TopBar() {
+export default function TopBar(props: { Title: string; Desc: string }) {
   return (
     <div className="ml-8 mr-8">
       <Flowbite theme={{ theme: theme }}>
@@ -24,12 +24,10 @@ export default function TopBar() {
           <div>
             <Navbar.Brand>
               <span className="self-center whitespace-nowrap text-xl py-3 font-semibold dark:text-white">
-                Dashboard
+                {props.Title}
               </span>
             </Navbar.Brand>
-            <p className="text-base text-gray-400 text-[16px]">
-              Look what you have made today!
-            </p>
+            <p className="text-base text-gray-400 text-[16px]">{props.Desc}</p>
           </div>
           <div className="flex md:order-2 items-center">
             <Dropdown
@@ -86,7 +84,7 @@ export default function TopBar() {
               </svg>
               <span className="sr-only">Notifications</span>
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-green-500 border-1 border-white rounded-full top-2 -right-1">
-                3
+                0
               </div>
             </button>
           </div>

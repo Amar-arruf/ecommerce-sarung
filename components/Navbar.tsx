@@ -43,7 +43,7 @@ export default function Navbar(params: { path: string }) {
               className={
                 "" +
                 (params.path == "Products"
-                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600  !text-black"
+                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold  !text-black"
                   : "")
               }
             >
@@ -54,7 +54,7 @@ export default function Navbar(params: { path: string }) {
               className={
                 "" +
                 (params.path == "Transactions"
-                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600  !text-black"
+                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
             >
@@ -65,7 +65,7 @@ export default function Navbar(params: { path: string }) {
               className={
                 "" +
                 (params.path == "Settings"
-                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600  !text-black"
+                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
             >
@@ -76,7 +76,7 @@ export default function Navbar(params: { path: string }) {
               className={
                 "" +
                 (params.path == "Account"
-                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600  !text-black"
+                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
             >
