@@ -15,7 +15,11 @@ export default function createPage() {
   return (
     <div className="mr-8 ml-8">
       <DefaultCard className="!p-8">
-        <form action="" method="POST" encType="multipart/form-data">
+        <form
+          action="http://localhost:5999/api/form/addProduk"
+          method="POST"
+          encType="multipart/form-data"
+        >
           <div className="flex items-center gap-x-6 mb-5">
             <div className="w-full">
               <div className="mb-2 block w-full">
@@ -74,6 +78,11 @@ export default function createPage() {
           </div>
           <Button type="submit">tambah Product</Button>
         </form>
+      </DefaultCard>
+      <DefaultCard>
+        <div className="p-3">
+          <div className="w-full h-9"></div>
+        </div>
       </DefaultCard>
     </div>
   );
