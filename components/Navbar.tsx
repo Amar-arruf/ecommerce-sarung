@@ -1,6 +1,7 @@
 "use client";
 
 import { Flowbite, Sidebar } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 import type { CustomFlowbiteTheme } from "flowbite-react";
 
@@ -16,6 +17,7 @@ const customTheme: CustomFlowbiteTheme = {
 };
 
 export default function Navbar(params: { path: string }) {
+  const router = useRouter();
   return (
     <Flowbite theme={{ theme: customTheme }}>
       <Sidebar className="h-screen">
@@ -35,6 +37,7 @@ export default function Navbar(params: { path: string }) {
                   ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
+              onClick={() => router.push("/dashboard")}
             >
               <p>Dashboard</p>
             </Sidebar.Item>
@@ -46,6 +49,7 @@ export default function Navbar(params: { path: string }) {
                   ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold  !text-black"
                   : "")
               }
+              onClick={() => router.push("/Dashmyproduct/home")}
             >
               <p>My Products</p>
             </Sidebar.Item>
@@ -57,6 +61,7 @@ export default function Navbar(params: { path: string }) {
                   ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
+              onClick={() => router.push("/Dashtransaction")}
             >
               <p>Transactions</p>
             </Sidebar.Item>
@@ -68,6 +73,7 @@ export default function Navbar(params: { path: string }) {
                   ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")
               }
+              onClick={() => router.push("/Dashsetting")}
             >
               <p>My Account</p>
             </Sidebar.Item>

@@ -1,4 +1,5 @@
 import DefaultCard from "@/components/DefaultCard";
+import Link from "next/link";
 
 async function getData() {
   const response = await fetch(
@@ -22,17 +23,19 @@ export default async function home() {
       </span>
       <div>
         {data.map((data: { [key: string]: string }, index: number) => (
-          <DefaultCard key={index}>
-            <div className="flex items-center justify-between">
-              <img
-                src={data.thumbnail}
-                className="rounded-lg w-[44px] h-[44px]"
-              />
-              <span className="px-3">{data.Nama_Produk}</span>
-              <span className="px-3">{data.Nama}</span>
-              <span className="px-3">{data.tanggal_order}</span>
-            </div>
-          </DefaultCard>
+          <Link href={`/Dashtransaction/${data.OrderID}`}>
+            <DefaultCard key={index}>
+              <div className="flex items-center justify-between">
+                <img
+                  src={data.thumbnail}
+                  className="rounded-lg w-[44px] h-[44px]"
+                />
+                <span className="px-3">{data.Nama_Produk}</span>
+                <span className="px-3">{data.Nama}</span>
+                <span className="px-3">{data.tanggal_order}</span>
+              </div>
+            </DefaultCard>
+          </Link>
         ))}
       </div>
     </div>

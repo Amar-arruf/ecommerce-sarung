@@ -10,7 +10,7 @@ type Props = {
 export default function DefaultCard(prop: Props) {
   const customTheme: CustomFlowbiteTheme["card"] = {
     root: {
-      children: `flex h-full flex-col justify-center gap-4 p-6 ${prop.className}`,
+      children: `flex h-full flex-col justify-center p-6 ${prop.className}`,
     },
   };
   return (
