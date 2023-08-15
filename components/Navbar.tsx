@@ -64,17 +64,6 @@ export default function Navbar(params: { path: string }) {
               href="#"
               className={
                 "" +
-                (params.path == "Settings"
-                  ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
-                  : "")
-              }
-            >
-              <p>Store Settings</p>
-            </Sidebar.Item>
-            <Sidebar.Item
-              href="#"
-              className={
-                "" +
                 (params.path == "Account"
                   ? "bg-gradient-to-r from-transparent from-50% to-[#FF7158] to-100% border-r-2 border-red-600 !font-semibold !text-black"
                   : "")

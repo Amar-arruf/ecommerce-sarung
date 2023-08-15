@@ -3,7 +3,11 @@ import DefaultCard from "@/components/DefaultCard";
 // dapatkan data dari backend
 async function getData() {
   let getDataTransaction = await fetch(
-    "http://localhost:5999/api//getTransaction/getData"
+    "http://localhost:5999/api/getTransaction/getData",
+    {
+      method: "GET",
+      cache: "no-store",
+    }
   );
 
   const data = await getDataTransaction.json();
@@ -44,12 +48,12 @@ export default async function dashboard() {
         <DefaultCard key={index}>
           <div className="flex items-center justify-between">
             <img
-              src={data.url_image}
+              src={data.thumbnail}
               className="rounded-lg w-[44px] h-[44px]"
             />
-            <span>{data.nama_produk}</span>
-            <span>{data.nama}</span>
-            <span>{data.tanggal_order}</span>
+            <span className="px-3">{data.Nama_Produk}</span>
+            <span className="px-3">{data.Nama}</span>
+            <span className="px-3">{data.tanggal_order}</span>
           </div>
         </DefaultCard>
       ))}
