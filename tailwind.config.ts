@@ -7,7 +7,15 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    extend: {
+      container: {
+        screens: {
+          "custom-width": "1152px",
+        },
+      },
+    },
+  },
   plugins: [require("flowbite/plugin")],
 };
 export default config;

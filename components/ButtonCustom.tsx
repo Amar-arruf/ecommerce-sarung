@@ -20,9 +20,13 @@ export default function ButtonCustom(props: Props) {
   let button: unknown;
   console.log(props.color);
   if (props.color === undefined) {
-    button = <Button>{props.btnText}</Button>;
+    button = <Button className="w-[120px]">{props.btnText}</Button>;
   } else {
-    button = <Button color={props.color}>{props.btnText}</Button>;
+    button = (
+      <Button color={props.color} className="w-[120px]">
+        {props.btnText}
+      </Button>
+    );
   }
 
   return (
