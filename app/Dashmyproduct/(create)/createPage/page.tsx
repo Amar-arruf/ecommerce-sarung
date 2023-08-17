@@ -1,6 +1,8 @@
 "use client";
 
 import DefaultCard from "@/components/DefaultCard";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import {
   Label,
@@ -10,16 +12,62 @@ import {
   FileInput,
   Button,
 } from "flowbite-react";
+import React from "react";
 
 export default function createPage() {
+  const MySwal = withReactContent(Swal);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // ambil data dari form
+    const BodyContent = new FormData();
+    const nama = document.getElementById("nama") as HTMLInputElement;
+    const harga = document.getElementById("harga") as HTMLInputElement;
+    const category = document.getElementById("Category") as HTMLInputElement;
+    const deskripsi = document.getElementById("descripsi") as HTMLInputElement;
+    const fileimage = document.getElementById("file") as HTMLInputElement;
+    const stock = document.getElementById("stock") as HTMLInputElement;
+    // tambahkan ke body
+    BodyContent.append("produkname", nama.value);
+    BodyContent.append("produkharga", harga.value);
+    BodyContent.append("category", category.value);
+    BodyContent.append("deskripsi", deskripsi.value);
+    BodyContent.append("stock", stock.value);
+
+    let fileImage: File | null;
+
+    fileImage =
+      typeof fileimage.files?.item(0) !== null &&
+      typeof fileimage.files?.item(0) !== undefined
+        ? (fileimage.files?.item(0) as File)
+        : null;
+
+    if (typeof fileImage !== null) {
+      BodyContent.append("file", fileImage as File);
+    }
+
+    console.log(fileImage);
+    try {
+      let response = await fetch("http://localhost:5999/api/form/addProduk", {
+        method: "POST",
+        body: BodyContent,
+      });
+      if (response.ok) {
+        MySwal.fire({
+          title: "Good Job!",
+          text: "data berhasil ditambahkan",
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="mr-8 ml-8">
       <DefaultCard className="!p-8">
-        <form
-          action="http://localhost:5999/api/form/addProduk"
-          method="POST"
-          encType="multipart/form-data"
-        >
+        <form onSubmit={handleSubmit} encType="multipart/from-data">
           <div className="flex items-center gap-x-6 mb-5">
             <div className="w-full">
               <div className="mb-2 block w-full">
@@ -78,11 +126,6 @@ export default function createPage() {
           </div>
           <Button type="submit">tambah Product</Button>
         </form>
-      </DefaultCard>
-      <DefaultCard>
-        <div className="p-3">
-          <div className="w-full h-9"></div>
-        </div>
       </DefaultCard>
     </div>
   );

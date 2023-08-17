@@ -17,7 +17,9 @@ export default async function MyProduct() {
   console.log(data);
   return (
     <div className="mr-8 ml-8 mt-5">
-      <ButtonCustom btnText="Add New Product" color="custom-color" />
+      <Link href={"/Dashmyproduct/createPage"}>
+        <ButtonCustom btnText="Add New Product" color="custom-color" />
+      </Link>
       <div className="my-5 grid grid-cols-4 gap-x-3 overflow-y-auto h">
         {data.map(
           (items: { [key: string]: string | Number }, index: number) => {

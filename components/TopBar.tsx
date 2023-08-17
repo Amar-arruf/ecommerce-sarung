@@ -2,6 +2,7 @@
 
 import { Dropdown, Navbar, Avatar, Flowbite, Badge } from "flowbite-react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
+import { useEffect, useState } from "react";
 
 const theme: CustomFlowbiteTheme = {
   dropdown: {
@@ -17,6 +18,25 @@ const theme: CustomFlowbiteTheme = {
 };
 
 export default function TopBar(props: { Title: string; Desc: string }) {
+  const [data, setData] = useState<{ [key: string]: any }[]>([]);
+
+  useEffect(() => {
+    let isApiSubscribed = true;
+    const response = fetch("http://localhost:3000/api/getTransaction");
+    response
+      .then((response) => {
+        if (isApiSubscribed) {
+          return response.json();
+        }
+      })
+      .then((data) => setData(data))
+      .catch((errr) => console.error(errr));
+    return () => {
+      isApiSubscribed = false;
+      console.log("disconnect");
+    };
+  }, []);
+
   return (
     <div className="ml-8 mr-8">
       <Flowbite theme={{ theme: theme }}>
@@ -84,7 +104,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
               </svg>
               <span className="sr-only">Notifications</span>
               <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-green-500 border-1 border-white rounded-full top-2 -right-1">
-                0
+                {data.length}
               </div>
             </button>
           </div>

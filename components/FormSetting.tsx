@@ -3,7 +3,9 @@
 import DefaultCard from "@/components/DefaultCard";
 
 import { Label, TextInput, Button } from "flowbite-react";
-import { useReducer } from "react";
+import React, { useReducer } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 interface State {
   nama: string;
@@ -65,13 +67,49 @@ export const FormSetting = ({
   };
   const [state, dispatch] = useReducer(Reducer, initialState);
 
+  const MySwal = withReactContent(Swal);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    let bodyContent = `Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${state.alamat1}&Alamat2=${state.alamat2}&provinsi=${state.provinsi}&Kota=${state.city}&kodepos=${state.postkode}`;
+
+    try {
+      let response = await fetch(
+        `http://localhost:5999/api/user/userID/${props.getId}`,
+        {
+          method: "POST",
+          body: bodyContent,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      if (response.ok) {
+        MySwal.fire({
+          title: "Good Job!",
+          text: "data berhasil di update!",
+          icon: "success",
+        });
+      } else {
+        MySwal.fire({
+          title: "Failed!",
+          text: "data gagal diupdate!",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      MySwal.fire({
+        icon: "error",
+        text: `${error}`,
+      });
+    }
+  };
+
   return (
     <>
       <DefaultCard>
-        <form
-          action={`http://localhost:5999/api/user/userID/${props.getId}`}
-          method="POST"
-        >
+        <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-x-6 mb-5">
             <div className="w-full">
               <div className="mb-2 block w-full">

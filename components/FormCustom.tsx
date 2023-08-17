@@ -1,6 +1,5 @@
 "use client";
 import DefaultCard from "@/components/DefaultCard";
-
 import {
   Label,
   TextInput,
@@ -11,6 +10,9 @@ import {
 } from "flowbite-react";
 import React, { useReducer, useCallback, useState } from "react";
 import { TiDelete } from "react-icons/ti";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 type State = {
   Category: number;
   Deskripsi_Produk: string;
@@ -48,7 +50,7 @@ function Reducer(state: State, action: Action): State {
 }
 
 function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
-  console.log("re render");
+  const MySwal = withReactContent(Swal);
 
   const initialState: State = {
     Category: Prop.props.Category,
@@ -74,6 +76,43 @@ function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
     );
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+
+    let bodyContent = `Nama_Produk=${state.Nama_Produk}&Harga=${state.Harga}&Category=${state.Category}&Deskripsi_Produk=${state.Deskripsi_Produk}&Stock=${state.Stock}`;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5999/api/produk/Produk_ID/${Prop.getId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: bodyContent,
+        }
+      );
+      if (response.ok) {
+        MySwal.fire({
+          title: "Good Job!",
+          text: "data berhasil di update!",
+          icon: "success",
+        });
+      } else {
+        MySwal.fire({
+          title: "Failed!",
+          text: "data gagal diupdate!",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      MySwal.fire({
+        icon: "error",
+        text: `${error}`,
+      });
+    }
+  };
+
   const handleButtonAdd = async () => {
     if (selectedImage) {
       const bodyContent = new FormData();
@@ -90,12 +129,23 @@ function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
           }
         );
         if (response.ok) {
-          window.location.reload();
+          MySwal.fire({
+            title: "Good Job!",
+            text: "data gambar  berhasil di tambahkan !",
+            icon: "success",
+          });
         } else {
-          console.error("Error uploading image.");
+          MySwal.fire({
+            title: "Failed!",
+            text: "data gagal diupdate!",
+            icon: "error",
+          });
         }
       } catch (error) {
-        console.error("Error, ", error);
+        MySwal.fire({
+          icon: "error",
+          text: `${error}`,
+        });
       }
     }
   };
@@ -103,10 +153,7 @@ function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
   return (
     <>
       <DefaultCard className="!p-8">
-        <form
-          action={`http://localhost:5999/api/produk/Produk_ID/${Prop.getId}`}
-          method="POST"
-        >
+        <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-x-6 mb-5">
             <div className="w-full">
               <div className="mb-2 block w-full">

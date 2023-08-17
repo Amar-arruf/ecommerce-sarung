@@ -46,8 +46,8 @@ export default async function dashboard() {
       </div>
       <h5 className="text-lg text-black font-[500]">Recent Transaction</h5>
       {data.map((data: { [key: string]: string }, index: number) => (
-        <Link href={`/Dashtransaction/${data.OrderID}`}>
-          <DefaultCard key={index}>
+        <Link href={`/Dashtransaction/${data.OrderID}`} key={index}>
+          <DefaultCard>
             <div className="flex items-center justify-between">
               <img
                 src={data.thumbnail}
