@@ -1,18 +1,113 @@
+"use client";
+
+import AvatarCustom from "@/components/AvatarCustom";
+import { usePathname, useRouter } from "next/navigation";
+
+import React, { useEffect } from "react";
+
 export default function Nav() {
+  const [data, setData] = React.useState<any>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    let isApiSubscribed = true;
+    const response = fetch("http://localhost:5999/api/auth/getAuth", {
+      method: "GET",
+      cache: "no-cache",
+      credentials: "include",
+    });
+    response
+      .then((response) => {
+        if (isApiSubscribed) {
+          return response.json();
+        }
+      })
+      .then((data) => setData(data))
+      .catch((errr) => console.error(errr));
+    return () => {
+      isApiSubscribed = false;
+      console.log("disconnect");
+    };
+  }, []);
+
+  console.log(data);
+
+  const pathname = usePathname();
   return (
     <div className="p-5 flex items-center">
       <img src="/logo.png" alt="logo" className="w-[50px] h-auto" />
       <nav className="px-5 ml-auto">
         <ul className="flex items-center gap-y-2 gap-x-8">
-          <li className="p-2">Home</li>
-          <li className="p-2">Category</li>
+          <li className="p-2" onClick={() => router.push("/")}>
+            Home
+          </li>
+          <li className="p-2" onClick={() => router.push("/explorer")}>
+            Explore
+          </li>
           <li className="p-2">About</li>
-          <li className="p-2">Sign up</li>
+          {pathname === "/signup" || pathname === "/login" || data ? (
+            <li className="p-2 hidden">Sign up</li>
+          ) : (
+            <li className="p-2" onClick={() => router.push("/signup")}>
+              Sign up
+            </li>
+          )}
         </ul>
       </nav>
-      <button className="bg-green-500 text-white p-3 w-[120px] rounded-lg">
-        Sign in
-      </button>
+      {pathname === "/signup" || pathname === "/login" || data ? (
+        <button className=" hidden bg-green-500 text-white p-3 w-[120px] rounded-lg">
+          Sign in
+        </button>
+      ) : (
+        <button
+          className="bg-green-500 text-white p-3 w-[120px] rounded-lg"
+          onClick={() => router.push("/login")}
+        >
+          Sign in
+        </button>
+      )}
+      {data && (
+        <div className="flex items-center gap-x-3">
+          <AvatarCustom
+            alt={data.user.username}
+            src={"https://reqres.in/img/faces/8-image.jpg"}
+          />
+          <span className="inline-block">{data.user.username}</span>
+          <button
+            type="button"
+            className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="shopping 1" clipPath="url(#clip0_209_74)">
+                <g id="Group">
+                  <g id="Group_2">
+                    <path
+                      id="Vector"
+                      d="M24 14.8053V10.0136H21.0326L14.0085 3.52323C14.0873 3.3009 14.1307 3.06189 14.1307 2.81281C14.1307 1.63795 13.1749 0.682129 12 0.682129C10.8251 0.682129 9.86932 1.63795 9.86932 2.81281C9.86932 3.06187 9.91267 3.3009 9.99155 3.52323L2.96739 10.0136H0V14.8053H0.838911L3.75375 23.3182H20.2462L23.161 14.8053H24V14.8053ZM15.903 17.3538H12.8412V14.8285H16.1524L15.903 17.3538ZM11.1588 21.6357H8.5198L8.2631 19.0363H11.1588V21.6357ZM8.09698 17.3538L7.84763 14.8285H11.1588V17.3538H8.09698ZM12.4482 2.81281C12.4482 2.94273 12.3923 3.05956 12.3037 3.14149C12.2238 3.21542 12.1172 3.26102 12 3.26102C11.8828 3.26102 11.7763 3.21542 11.6963 3.14149C11.6077 3.05954 11.5518 2.94273 11.5518 2.81281C11.5518 2.68289 11.6077 2.56605 11.6963 2.48413C11.7762 2.4102 11.8828 2.3646 12 2.3646C12.1172 2.3646 12.2237 2.4102 12.3037 2.48413C12.3923 2.56608 12.4482 2.68289 12.4482 2.81281ZM11.1336 4.75869C11.3985 4.87711 11.6916 4.94351 12 4.94351C12.3084 4.94351 12.6015 4.87711 12.8664 4.75869L18.5535 10.0136H5.44657L11.1336 4.75869ZM1.68247 11.696H22.3175V13.1229H1.68247V11.696ZM6.15699 14.8285L6.40634 17.3538H3.4899L2.62525 14.8285H6.15699ZM4.95605 21.6357L4.06597 19.0363H6.57249L6.82916 21.6357H4.95605ZM12.8412 19.0362H15.7369L15.4802 21.6357H12.8412V19.0362ZM19.044 21.6357H17.1708L17.4275 19.0363H19.934L19.044 21.6357ZM20.5101 17.3538H17.5937L17.843 14.8285H21.3748L20.5101 17.3538Z"
+                      fill="#0C0D36"
+                    />
+                  </g>
+                </g>
+              </g>
+              <defs>
+                <clipPath id="clip0_209_74">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span className="sr-only">Notifications</span>
+            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-green-500 border-1 border-white rounded-full top-2 -right-1">
+              0
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import CategoryList from "./componentsServer/CategoryList";
+import Footer from "./componentsServer/Footer";
 
 import Hero from "./componentsServer/Hero";
 import Nav from "./componentsServer/Nav";
@@ -10,10 +11,13 @@ export default async function Home() {
   let ElementProdukList = await ProdukList();
   return (
     <>
-      <Nav />
-      <Hero />
-      {ElementCategory}
-      {ElementProdukList}
+      <div className="container custom-width:container mx-auto">
+        <Nav />
+        <Hero />
+        {ElementCategory}
+        {ElementProdukList}
+      </div>
+      <Footer />
     </>
   );
 }

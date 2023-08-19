@@ -5,6 +5,7 @@ import { Card, CustomFlowbiteTheme } from "flowbite-react";
 type Props = {
   children: React.ReactNode;
   className?: string;
+  className2?: string;
 };
 
 export default function DefaultCard(prop: Props) {
@@ -14,7 +15,7 @@ export default function DefaultCard(prop: Props) {
     },
   };
   return (
-    <Card theme={customTheme} className={`w-full my-8 `}>
+    <Card theme={customTheme} className={`my-8 ${prop.className2}`}>
       {prop.children}
     </Card>
   );
