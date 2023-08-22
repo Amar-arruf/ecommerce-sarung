@@ -6,12 +6,13 @@ import React from "react";
 type Props = {
   btnText: string;
   color?: string;
+  className2?: string;
 };
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
     color: {
-      "custom-color": "text-white bg-green-500",
+      "custom-color": "text-white bg-green-500 ",
     },
   },
 };
@@ -20,10 +21,14 @@ export default function ButtonCustom(props: Props) {
   let button: unknown;
   console.log(props.color);
   if (props.color === undefined) {
-    button = <Button className="w-[120px]">{props.btnText}</Button>;
+    button = (
+      <Button className={`w-[120px] ${props.className2}`}>
+        {props.btnText}
+      </Button>
+    );
   } else {
     button = (
-      <Button color={props.color} className="w-[120px]">
+      <Button color={props.color} className={`w-[120px] ${props.className2}`}>
         {props.btnText}
       </Button>
     );

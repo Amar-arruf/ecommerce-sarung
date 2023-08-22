@@ -1,6 +1,7 @@
 import Footer from "@/app/componentsServer/Footer";
 import Nav from "@/app/componentsServer/Nav";
 import AvatarCustom from "@/components/AvatarCustom";
+import ButtonAddToCart from "@/components/ButtonAddToCart";
 
 async function getData(produkid: string) {
   const response = await fetch(
@@ -111,9 +112,7 @@ export default async function DetailProduk({
                 )}
             </div>
           </div>
-          <button className="bg-green-400 p-3 rounded w-[210px] text-white">
-            Add To cart
-          </button>
+          <ButtonAddToCart Produkid={params.produkid} />
         </div>
       </div>
       <Footer />

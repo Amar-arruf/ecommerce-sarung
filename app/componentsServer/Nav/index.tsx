@@ -3,34 +3,59 @@
 import AvatarCustom from "@/components/AvatarCustom";
 import { usePathname, useRouter } from "next/navigation";
 
+async function getAuth() {
+  const response = await fetch("http://localhost:5999/api/auth/getAuth", {
+    method: "GET",
+    cache: "no-cache",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("failed Fetching data GetAuth");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+async function GetCart(userId: string) {
+  const response = await fetch(
+    `http://localhost:5999/api/keranjang/User_ID/${userId}`
+  );
+
+  if (!response.ok) {
+    throw new Error("failed Fetching data GetCart");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 import React, { useEffect } from "react";
 
 export default function Nav() {
   const [data, setData] = React.useState<any>(null);
+  const [cart, setCart] = React.useState<any>([]);
   const router = useRouter();
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const response = fetch("http://localhost:5999/api/auth/getAuth", {
-      method: "GET",
-      cache: "no-cache",
-      credentials: "include",
-    });
-    response
-      .then((response) => {
-        if (isApiSubscribed) {
-          return response.json();
-        }
-      })
-      .then((data) => setData(data))
-      .catch((errr) => console.error(errr));
+    async function fetchdata() {
+      try {
+        const getAuthData = await getAuth();
+        setData(getAuthData);
+        const getCart = await GetCart(getAuthData.user.userID);
+        setCart(getCart);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchdata();
     return () => {
       isApiSubscribed = false;
       console.log("disconnect");
     };
   }, []);
-
-  console.log(data);
 
   const pathname = usePathname();
   return (
@@ -76,6 +101,7 @@ export default function Nav() {
           <button
             type="button"
             className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={() => router.push("/cart")}
           >
             <svg
               width="30"
@@ -103,7 +129,7 @@ export default function Nav() {
             </svg>
             <span className="sr-only">Notifications</span>
             <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-green-500 border-1 border-white rounded-full top-2 -right-1">
-              0
+              {cart.length}
             </div>
           </button>
         </div>

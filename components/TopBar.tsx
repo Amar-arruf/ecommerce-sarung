@@ -17,25 +17,64 @@ const theme: CustomFlowbiteTheme = {
   },
 };
 
+async function getTransaction() {
+  const response = await fetch(
+    "http://localhost:5999/api/getTransaction/getData",
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed Fetch Data Get transaction");
+  }
+  const data = await response.json();
+  return data;
+}
+
+async function getuser() {
+  const response = await fetch(
+    "http://localhost:5999/api/user/AkunID/1231134",
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed Fetch Data getuser");
+  }
+  const data = await response.json();
+  return data;
+}
+
 export default function TopBar(props: { Title: string; Desc: string }) {
   const [data, setData] = useState<{ [key: string]: any }[]>([]);
+  const [user, setUser] = useState<{ [key: string]: any }[]>([]);
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const response = fetch("http://localhost:3000/api/getTransaction");
-    response
-      .then((response) => {
+    async function fetchData() {
+      try {
+        const GetUser = await getuser();
+        const getTransact = await getTransaction();
+
         if (isApiSubscribed) {
-          return response.json();
+          setUser(GetUser);
+          setData(getTransact);
         }
-      })
-      .then((data) => setData(data))
-      .catch((errr) => console.error(errr));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
     return () => {
       isApiSubscribed = false;
       console.log("disconnect");
     };
   }, []);
+  console.log(user);
 
   return (
     <div className="ml-8 mr-8">
@@ -61,9 +100,8 @@ export default function TopBar(props: { Title: string; Desc: string }) {
               }
             >
               <Dropdown.Header>
-                <span className="block text-sm">Angga</span>
-                <span className="block truncate text-sm font-medium">
-                  Angga@example.com
+                <span className="block text-sm">
+                  {user.length > 0 ? user[0].Nama : "default"}
                 </span>
               </Dropdown.Header>
               <Dropdown.Item>About</Dropdown.Item>
@@ -72,7 +110,9 @@ export default function TopBar(props: { Title: string; Desc: string }) {
               <Dropdown.Divider />
               <Dropdown.Item>Sign out</Dropdown.Item>
             </Dropdown>
-            <div className="px-3 text-sm">Hi, Angga</div>
+            <div className="px-3 text-sm">
+              Hi,{user.length > 0 ? user[0].Nama : "default"}{" "}
+            </div>
 
             <button
               type="button"

@@ -3,11 +3,12 @@
 import DefaultCard from "@/components/DefaultCard";
 
 import { Label, TextInput, Button } from "flowbite-react";
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 interface State {
+  userid: string;
   nama: string;
   alamat1: string;
   alamat2: string;
@@ -25,13 +26,16 @@ type Action = {
     | "CHANGE NAME"
     | "CHANGE PROVINSI"
     | "CHANGE POSTKODE"
-    | "CHANGE TELEPON";
+    | "CHANGE TELEPON"
+    | "CHANGE USERID";
   payload: string;
 };
 
 // function reducer
 function Reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "CHANGE USERID":
+      return { ...state, userid: action.payload };
     case "CHANGE NAME":
       return { ...state, nama: action.payload };
     case "CHANGE ALAMAT1":
@@ -51,43 +55,76 @@ function Reducer(state: State, action: Action): State {
   }
 }
 
-export const FormSetting = ({
-  props,
-}: {
-  props: { Prop: State; getId: string };
-}) => {
-  const initialState: State = {
-    nama: props.Prop.nama,
-    alamat1: props.Prop.alamat1,
-    alamat2: props.Prop.alamat2,
-    provinsi: props.Prop.provinsi,
-    city: props.Prop.city,
-    postkode: props.Prop.postkode,
-    telepon: props.Prop.telepon,
-  };
-  const [state, dispatch] = useReducer(Reducer, initialState);
+async function GetDataUserLogin() {
+  let response = await fetch("http://localhost:5999/api/auth/getAuth", {
+    method: "GET",
+    credentials: "include",
+  });
 
+  if (!response.ok) {
+    throw new Error("failed fetch error Getauth");
+  }
+
+  const data = await response.json();
+
+  return data;
+}
+
+const FormBio = () => {
   const MySwal = withReactContent(Swal);
+
+  const [dataLogin, setDataLogin] = useState<any>();
+
+  useEffect(() => {
+    let isApiSubscribe = true;
+
+    async function fetchData() {
+      try {
+        const GetAuth = await GetDataUserLogin();
+        setDataLogin(GetAuth);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+    return () => {
+      isApiSubscribe = false;
+    };
+  }, []);
+
+  console.log(dataLogin);
+
+  const initialState: State = {
+    userid: "",
+    nama: "",
+    alamat1: "",
+    alamat2: "",
+    provinsi: "",
+    city: "",
+    postkode: "",
+    telepon: "",
+  };
+
+  const [state, dispatch] = useReducer(Reducer, initialState);
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    let bodyContent = `Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${
+    let bodyContent = `UserID=${state.userid}&AkunID=${
+      dataLogin.user.userID
+    }&Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${
       state.alamat1
     }&Alamat2=${state.alamat2}&provinsi=${state.provinsi}&Kota=${
       state.city
     }&kodepos=${Number(state.postkode)}`;
 
     try {
-      let response = await fetch(
-        `http://localhost:5999/api/user/userID/${props.getId}`,
-        {
-          method: "POST",
-          body: bodyContent,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
+      let response = await fetch(`http://localhost:5999/api/user/`, {
+        method: "POST",
+        body: bodyContent,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
 
       if (response.ok) {
         MySwal.fire({
@@ -115,6 +152,21 @@ export const FormSetting = ({
       <DefaultCard>
         <form onSubmit={handleSubmit}>
           <div className="flex items-center gap-x-6 mb-5">
+            <div className="w-full">
+              <div className="mb-2 block w-full">
+                <Label htmlFor="UserID" value="User ID" />
+              </div>
+              <TextInput
+                id="nama"
+                name="UserId"
+                sizing="md"
+                type="text"
+                value={state.userid}
+                onChange={(e: any) =>
+                  dispatch({ type: "CHANGE USERID", payload: e.target.value })
+                }
+              />
+            </div>{" "}
             <div className="w-full">
               <div className="mb-2 block w-full">
                 <Label htmlFor="nama" value="Your Name" />
@@ -247,3 +299,5 @@ export const FormSetting = ({
     </>
   );
 };
+
+export default FormBio;

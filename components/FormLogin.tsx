@@ -25,6 +25,7 @@ export default function FormLogin() {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -55,7 +56,7 @@ export default function FormLogin() {
         <p className="text-2xl py-5">
           memulai untuk jual beli dengan cara terbaru
         </p>
-        <form action={"http://localhost:5999/api/login/getUser"} method="POST">
+        <form onSubmit={handleSubmit} method="POST">
           <div className="mb-3">
             <label htmlFor="Email" className="block py-3 ">
               Email Address
