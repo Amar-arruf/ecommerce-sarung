@@ -105,10 +105,8 @@ export default function TopBar(props: { Title: string; Desc: string }) {
                 </span>
               </Dropdown.Header>
               <Dropdown.Item>About</Dropdown.Item>
-              <Dropdown.Item>Settings</Dropdown.Item>
-              <Dropdown.Item>Change Password</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item>Sign out</Dropdown.Item>
+              <Dropdown.Item>Logout</Dropdown.Item>
             </Dropdown>
             <div className="px-3 text-sm">
               Hi,{user.length > 0 ? user[0].Nama : "default"}{" "}

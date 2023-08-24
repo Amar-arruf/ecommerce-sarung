@@ -1,5 +1,6 @@
 "use client";
 
+import { Dropdown } from "flowbite-react";
 import AvatarCustom from "@/components/AvatarCustom";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -69,7 +70,9 @@ export default function Nav() {
           <li className="p-2" onClick={() => router.push("/explorer")}>
             Explore
           </li>
-          <li className="p-2">About</li>
+          <li className="p-2" onClick={() => router.push("/#About")}>
+            About
+          </li>
           {pathname === "/signup" || pathname === "/login" || data ? (
             <li className="p-2 hidden">Sign up</li>
           ) : (
@@ -93,11 +96,28 @@ export default function Nav() {
       )}
       {data && (
         <div className="flex items-center gap-x-3">
-          <AvatarCustom
-            alt={data.user.username}
-            src={"https://reqres.in/img/faces/8-image.jpg"}
-          />
-          <span className="inline-block">{data.user.username}</span>
+          <Dropdown
+            inline
+            label={
+              <div className="flex items-center ">
+                <AvatarCustom
+                  alt={data.user.username}
+                  src={"https://reqres.in/img/faces/8-image.jpg"}
+                />
+                <Dropdown.Header className="!p-0">
+                  <span className="block text-sm w-[80px]">
+                    {data.user.username}
+                  </span>
+                </Dropdown.Header>
+              </div>
+            }
+          >
+            <Dropdown.Item onClick={() => router.push("/userprofile")}>
+              About
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Logout</Dropdown.Item>
+          </Dropdown>
           <button
             type="button"
             className="relative inline-flex items-center p-3 text-sm font-medium text-center text-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

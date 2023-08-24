@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -89,9 +89,11 @@ export default function FormLogin() {
             Sign In to My Account
           </button>
         </form>
-        <button className="mt-5 bg-gray-200  text-gray-400 p-2 w-full">
-          Sign up
-        </button>
+        {usePathname() !== "/loginDashboard" && (
+          <button className="mt-5 bg-gray-200  text-gray-400 p-2 w-full">
+            Sign up
+          </button>
+        )}
       </div>
     </>
   );
