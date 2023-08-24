@@ -1,16 +1,21 @@
 "use client";
 
 import { Button, Table } from "flowbite-react";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function ListItemCart() {
   const [data, setData] = useState<{ [key: string]: string | number }[]>([]);
+  const mySwal = withReactContent(Swal);
+  const router = useRouter();
 
   useEffect(() => {
     let isApiSubscribed = true;
     const response = fetch("http://localhost:5999/api/listcart/getData", {
       method: "GET",
-      cache: "no-cache",
+      cache: "no-store",
       credentials: "include",
     });
     response
@@ -26,6 +31,40 @@ export default function ListItemCart() {
       console.log("disconnect");
     };
   }, []);
+
+  const handleRemoveItem = async (CartID: string) => {
+    try {
+      let responseDelete = await fetch(
+        `http://localhost:5999/api/keranjang/CartID/${CartID}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!responseDelete.ok) {
+        mySwal.fire({
+          title: "Failed!",
+          text: "data gagal di hapus!",
+          icon: "error",
+        });
+      } else {
+        mySwal
+          .fire({
+            title: "Berhasil!",
+            text: "data Berhasil di hapus!",
+            icon: "success",
+          })
+          .then((confirm) => {
+            router.refresh();
+          });
+      }
+    } catch (error) {
+      mySwal.fire({
+        title: "Failed!",
+        text: `${error}`,
+        icon: "error",
+      });
+    }
+  };
   return (
     <>
       <Table>
@@ -62,7 +101,10 @@ export default function ListItemCart() {
                   {obj.Quantity as string}
                 </Table.Cell>
                 <Table.Cell className="!text-center">
-                  <Button className="bg-red-400 w-[50%] " href="/tables">
+                  <Button
+                    className="bg-red-400 w-[50%]"
+                    onClick={() => handleRemoveItem(obj.CartID as string)}
+                  >
                     <p>Remove</p>
                   </Button>
                 </Table.Cell>

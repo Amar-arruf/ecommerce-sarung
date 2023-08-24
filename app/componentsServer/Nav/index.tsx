@@ -32,11 +32,14 @@ async function GetCart(userId: string) {
 }
 
 import React, { useEffect } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export default function Nav() {
   const [data, setData] = React.useState<any>(null);
   const [cart, setCart] = React.useState<any>([]);
   const router = useRouter();
+  const MySwal = withReactContent(Swal);
 
   useEffect(() => {
     let isApiSubscribed = true;
@@ -59,6 +62,39 @@ export default function Nav() {
   }, []);
 
   const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      let responseLogout = await fetch(
+        "http://localhost:5999/api/auth/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+      if (responseLogout.ok) {
+        MySwal.fire({
+          title: "Berhasil!",
+          text: "berhasil logout!",
+          icon: "success",
+        }).then((confirm) => {
+          router.push("/login");
+        });
+      } else {
+        MySwal.fire({
+          title: "Gagal!",
+          text: await responseLogout.text(),
+          icon: "warning",
+        });
+      }
+    } catch (error) {
+      MySwal.fire({
+        title: "Gagal!",
+        text: `${error}`,
+        icon: "error",
+      });
+    }
+  };
   return (
     <div className="p-5 flex items-center">
       <img src="/logo.png" alt="logo" className="w-[50px] h-auto" />
@@ -116,7 +152,7 @@ export default function Nav() {
               About
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>Logout</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleLogout()}>Logout</Dropdown.Item>
           </Dropdown>
           <button
             type="button"

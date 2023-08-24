@@ -31,6 +31,10 @@ type Action = {
   payload: string;
 };
 
+type userLogin = {
+  [key: string]: any;
+};
+
 // function reducer
 function Reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -70,31 +74,27 @@ async function GetDataUserLogin() {
   return data;
 }
 
+async function GetDataUser(userid: number) {
+  let response = await fetch(
+    `http://localhost:5999/api/user/AkunID/${userid}`,
+    {
+      method: "GET",
+    }
+  );
+  if (!response.ok) {
+    throw new Error(
+      "gagal mendapatakan data data user dengan status response" +
+        response.status
+    );
+  }
+  const data = await response.json();
+  return data;
+}
+
 const FormBio = () => {
   const MySwal = withReactContent(Swal);
-
-  const [dataLogin, setDataLogin] = useState<any>();
-
-  useEffect(() => {
-    let isApiSubscribe = true;
-
-    async function fetchData() {
-      try {
-        const GetAuth = await GetDataUserLogin();
-        setDataLogin(GetAuth);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-    return () => {
-      isApiSubscribe = false;
-    };
-  }, []);
-
-  console.log(dataLogin);
-
-  const initialState: State = {
+  let initialState: State;
+  initialState = {
     userid: "",
     nama: "",
     alamat1: "",
@@ -105,7 +105,61 @@ const FormBio = () => {
     telepon: "",
   };
 
+  const [dataLogin, setDataLogin] = useState<any>();
   const [state, dispatch] = useReducer(Reducer, initialState);
+
+  useEffect(() => {
+    let isApiSubscribe = true;
+
+    async function fetchData() {
+      try {
+        const GetAuth = await GetDataUserLogin();
+        setDataLogin(GetAuth);
+        const getDataUser = await GetDataUser(GetAuth.user.userID);
+
+        if (getDataUser.length > 0) {
+          dispatch({
+            type: "CHANGE USERID",
+            payload: String(getDataUser[0].UserID),
+          });
+          dispatch({
+            type: "CHANGE NAME",
+            payload: String(getDataUser[0].Nama),
+          });
+          dispatch({
+            type: "CHANGE ALAMAT1",
+            payload: String(getDataUser[0].Alamat1),
+          });
+          dispatch({
+            type: "CHANGE ALAMAT2",
+            payload: String(getDataUser[0].Alamat2),
+          });
+          dispatch({
+            type: "CHANGE PROVINSI",
+            payload: `${getDataUser[0].provinsi}` as string,
+          });
+          dispatch({
+            type: "CHANGE CITY",
+            payload: getDataUser[0].Kota as string,
+          });
+          dispatch({
+            type: "CHANGE POSTKODE",
+            payload: String(getDataUser[0].kodepos),
+          });
+          dispatch({
+            type: "CHANGE TELEPON",
+            payload: getDataUser[0].Telepon as string,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+    return () => {
+      isApiSubscribe = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
@@ -129,13 +183,13 @@ const FormBio = () => {
       if (response.ok) {
         MySwal.fire({
           title: "Good Job!",
-          text: "data berhasil di update!",
+          text: "data berhasil di update / tambah!",
           icon: "success",
         });
       } else {
         MySwal.fire({
           title: "Failed!",
-          text: "data gagal diupdate!",
+          text: "data gagal diupdate / tambah!",
           icon: "error",
         });
       }
