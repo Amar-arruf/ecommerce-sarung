@@ -3,6 +3,9 @@
 import { Dropdown, Navbar, Avatar, Flowbite, Badge } from "flowbite-react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useRouter } from "next/navigation";
 
 const theme: CustomFlowbiteTheme = {
   dropdown: {
@@ -52,6 +55,8 @@ async function getuser() {
 export default function TopBar(props: { Title: string; Desc: string }) {
   const [data, setData] = useState<{ [key: string]: any }[]>([]);
   const [user, setUser] = useState<{ [key: string]: any }[]>([]);
+  const MySwal = withReactContent(Swal);
+  const router = useRouter();
 
   useEffect(() => {
     let isApiSubscribed = true;
@@ -75,6 +80,39 @@ export default function TopBar(props: { Title: string; Desc: string }) {
     };
   }, []);
   console.log(user);
+
+  const handleLogout = async () => {
+    try {
+      let responseLogout = await fetch(
+        "http://localhost:5999/api/auth/logout",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+      if (responseLogout.ok) {
+        MySwal.fire({
+          title: "Berhasil!",
+          text: "berhasil logout!",
+          icon: "success",
+        }).then((confirm) => {
+          router.push("/loginDashboard");
+        });
+      } else {
+        MySwal.fire({
+          title: "Gagal!",
+          text: await responseLogout.text(),
+          icon: "warning",
+        });
+      }
+    } catch (error) {
+      MySwal.fire({
+        title: "Gagal!",
+        text: `${error}`,
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <div className="ml-8 mr-8">
@@ -104,9 +142,9 @@ export default function TopBar(props: { Title: string; Desc: string }) {
                   {user.length > 0 ? user[0].Nama : "default"}
                 </span>
               </Dropdown.Header>
-              <Dropdown.Item>About</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item>Logout</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleLogout()}>
+                Logout
+              </Dropdown.Item>
             </Dropdown>
             <div className="px-3 text-sm">
               Hi,{user.length > 0 ? user[0].Nama : "default"}{" "}

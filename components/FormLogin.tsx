@@ -8,10 +8,12 @@ import withReactContent from "sweetalert2-react-content";
 export default function FormLogin() {
   const MySwal = withReactContent(Swal);
   const router = useRouter();
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const pathName = usePathname();
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log("connected");
-
+    console.log(pathName);
     const email = document.getElementById("Email") as HTMLInputElement;
     const password = document.getElementById("Password") as HTMLInputElement;
 
@@ -34,7 +36,10 @@ export default function FormLogin() {
           text: "berhasil login!",
           icon: "success",
         }).then((result) => {
-          router.push("http://localhost:3000/");
+          if (pathName !== "loginDashboard") {
+            router.push("http://localhost:3000/");
+          }
+          router.push("http://localhost:3000/dashboard");
         });
       } else {
         MySwal.fire({
@@ -56,40 +61,39 @@ export default function FormLogin() {
         <p className="text-2xl py-5">
           memulai untuk jual beli dengan cara terbaru
         </p>
-        <form onSubmit={handleSubmit} method="POST">
-          <div className="mb-3">
-            <label htmlFor="Email" className="block py-3 ">
-              Email Address
-            </label>
-            <input
-              type="text"
-              id="Email"
-              name="Email"
-              placeholder="Email"
-              className="w-full border-0 p-2 bg-gray-200 rounded-md"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="block py-3 ">
-              Password
-            </label>
-            <input
-              type="password"
-              id="Password"
-              name="Password"
-              placeholder="Password"
-              className="w-full border-0 p-2 bg-gray-200 rounded-md"
-            />
-          </div>
-          <button
-            name="submit"
-            type="submit"
-            className="mt-5 bg-green-400 text-white p-2 w-full"
-          >
-            Sign In to My Account
-          </button>
-        </form>
-        {usePathname() !== "/loginDashboard" && (
+        <div className="mb-3">
+          <label htmlFor="Email" className="block py-3 ">
+            Email Address
+          </label>
+          <input
+            type="text"
+            id="Email"
+            name="Email"
+            placeholder="Email"
+            className="w-full border-0 p-2 bg-gray-200 rounded-md"
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="password" className="block py-3 ">
+            Password
+          </label>
+          <input
+            type="password"
+            id="Password"
+            name="Password"
+            placeholder="Password"
+            className="w-full border-0 p-2 bg-gray-200 rounded-md"
+          />
+        </div>
+        <button
+          name="submit"
+          type="submit"
+          className="mt-5 bg-green-400 text-white p-2 w-full"
+          onClick={handleSubmit}
+        >
+          Sign In to My Account
+        </button>
+        {pathName !== "/loginDashboard" && (
           <button className="mt-5 bg-gray-200  text-gray-400 p-2 w-full">
             Sign up
           </button>
