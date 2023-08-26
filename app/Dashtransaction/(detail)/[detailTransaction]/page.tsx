@@ -1,4 +1,3 @@
-import ButtonCustom from "@/components/ButtonCustom";
 import ComponentState from "@/components/ComponentState";
 
 import DefaultCard from "@/components/DefaultCard";
@@ -25,6 +24,7 @@ export default async function DetailProduk({
   searchParams: { state: string };
 }) {
   const data = await getData(params.detailTransaction);
+  console.log(data);
   return (
     <div className="mr-8 ml-8">
       <DefaultCard className="!p-8">
@@ -68,12 +68,12 @@ export default async function DetailProduk({
                 </span>
                 <span
                   className={`block text-base ${
-                    searchParams.state === "shipping"
+                    data[0].StatusPay === "Success"
                       ? "text-green-500 font-[700]"
                       : "text-red-500 font-[700]"
                   } font-medium pb-2`}
                 >
-                  {searchParams.state === "shipping" ? "Success" : "Pendng"}
+                  {data[0].StatusPay === "Success" ? "Success" : "Pendng"}
                 </span>
               </div>
             </div>
@@ -148,9 +148,6 @@ export default async function DetailProduk({
           Shipping Status
         </span>
         <ComponentState id={params.detailTransaction} />
-        <div className="w-19 ms-auto">
-          <ButtonCustom btnText="Save Now" color="custom-color" />
-        </div>
       </DefaultCard>
     </div>
   );

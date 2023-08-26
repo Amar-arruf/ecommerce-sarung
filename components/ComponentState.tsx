@@ -11,14 +11,32 @@ const ComponentState: React.FC<Props> = (prop) => {
   const [handleSelect, setHandleSelect] = React.useState<string>();
   const router = useRouter();
 
-  const selectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     console.log(value);
+    try {
+      console.log(prop.id);
+      let responseUpdate = await fetch(
+        `http://localhost:5999/api/updatepayment/${prop.id}?State=${value}`,
+        {
+          method: "PUT",
+          cache: "no-store",
+        }
+      );
+      if (!responseUpdate.ok) {
+        console.log(await responseUpdate.text());
+      }
+      console.log(await responseUpdate.json());
+    } catch (error) {
+      console.error(error);
+    }
+
     setHandleSelect(value);
     router.push(
       `http://localhost:3000/Dashtransaction/${prop.id}?state=${value}`
     );
   };
+
   return (
     <>
       <select
@@ -28,10 +46,8 @@ const ComponentState: React.FC<Props> = (prop) => {
         value={handleSelect}
         onChange={selectChange}
       >
-        <option value="pending" selected>
-          pending
-        </option>
-        <option value="shipping">shipping</option>
+        <option value="Pending">pending</option>
+        <option value="Success">shipping</option>
       </select>
     </>
   );

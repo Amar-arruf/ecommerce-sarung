@@ -54,7 +54,7 @@ export default function ListItemCart() {
             icon: "success",
           })
           .then((confirm) => {
-            router.refresh();
+            window.location.reload();
           });
       }
     } catch (error) {

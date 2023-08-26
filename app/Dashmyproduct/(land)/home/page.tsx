@@ -1,4 +1,5 @@
 import ButtonCustom from "@/components/ButtonCustom";
+import ButtonDelete from "@/components/ButtonDelete";
 import DefaultCard from "@/components/DefaultCard";
 import Link from "next/link";
 
@@ -24,13 +25,14 @@ export default async function MyProduct() {
         {data.map(
           (items: { [key: string]: string | Number }, index: number) => {
             return (
-              <Link
-                href={`/Dashmyproduct/${
-                  typeof items.Nama_Produk === "string" ? items.Nama_Produk : ""
-                }`}
-                key={index}
-              >
-                <DefaultCard className="!p-2">
+              <DefaultCard className="!p-2 !relative" key={index}>
+                <Link
+                  href={`/Dashmyproduct/${
+                    typeof items.Nama_Produk === "string"
+                      ? items.Nama_Produk
+                      : ""
+                  }`}
+                >
                   <img
                     src={
                       typeof items.thumbnail === "string" ? items.thumbnail : ""
@@ -42,16 +44,20 @@ export default async function MyProduct() {
                     }
                     className="w-full h-auto"
                   />
-                  <p className="p-3 font-semibold text-base">
-                    {typeof items.Nama_Produk === "string"
-                      ? items.Nama_Produk
-                      : "undefined"}
-                  </p>
-                  <p className="p-3 text-gray-400 text-base">
-                    {typeof items.Harga === "string" ? items.Harga : ""}
-                  </p>
-                </DefaultCard>
-              </Link>
+                </Link>
+                <p className="p-3 font-semibold text-base">
+                  {typeof items.Nama_Produk === "string"
+                    ? items.Nama_Produk
+                    : "undefined"}
+                </p>
+                <p className="px-3 text-gray-400 text-base">
+                  {typeof items.Harga === "string" ? items.Harga : ""}
+                </p>
+                <p className="px-3 text-gray-400 text-base">
+                  Stock : {typeof items.Stock === "number" ? items.Stock : 0}
+                </p>
+                <ButtonDelete id={items.Produk_ID as string} />
+              </DefaultCard>
             );
           }
         )}

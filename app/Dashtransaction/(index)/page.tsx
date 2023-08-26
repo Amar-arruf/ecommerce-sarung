@@ -16,6 +16,7 @@ async function getData() {
 
 export default async function home() {
   const data = await getData();
+  console.log(data);
   return (
     <div className="mr-8 ml-8 my-3">
       <span className="p-3 inline-block font-semibold underline underline-offset-4 decoration-2">
@@ -32,6 +33,7 @@ export default async function home() {
                 />
                 <span className="px-3">{data.Nama_Produk}</span>
                 <span className="px-3">{data.Nama}</span>
+                <span className="px-3">{data.Jumlah_Item}</span>
                 <span className="px-3">{data.tanggal_order}</span>
               </div>
             </DefaultCard>
