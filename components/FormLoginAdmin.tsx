@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-export default function FormLogin() {
+export default function FormLoginAdmin() {
   const MySwal = withReactContent(Swal);
   const router = useRouter();
 
@@ -34,7 +34,7 @@ export default function FormLogin() {
           text: "berhasil login!",
           icon: "success",
         }).then((result) => {
-          router.push("http://localhost:3000/");
+          router.push("http://localhost:3000/dashboard");
         });
       } else {
         MySwal.fire({
@@ -87,9 +87,6 @@ export default function FormLogin() {
           onClick={handleSubmit}
         >
           Sign In to My Account
-        </button>
-        <button className="mt-5 bg-gray-200  text-gray-400 p-2 w-full">
-          Sign up
         </button>
       </div>
     </>

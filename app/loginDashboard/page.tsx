@@ -1,6 +1,5 @@
 import DefaultCard from "@/components/DefaultCard";
-import FormLogin from "@/components/FormLogin";
-import Nav from "../componentsServer/Nav";
+import FormLoginAdmin from "@/components/FormLoginAdmin";
 
 export default function loginDashboard() {
   return (
@@ -21,7 +20,7 @@ export default function loginDashboard() {
                 className="!rounded-tr-[25px] !rounded-bl-[25px] h-full"
               />
             </DefaultCard>
-            <FormLogin />
+            <FormLoginAdmin />
           </div>
         </div>
       </div>
