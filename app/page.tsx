@@ -9,6 +9,7 @@ export default async function Home() {
   let ElementCategory: JSX.Element;
   ElementCategory = await CategoryList();
   let ElementProdukList = await ProdukList();
+
   return (
     <>
       <div className="container custom-width:container mx-auto">

@@ -14,16 +14,14 @@ export default function ButtonDelete(prop: Props) {
   const router = useRouter();
   const handleDeleted = async (id: unknown) => {
     try {
-      let responseDelete = await fetch(
-        `http://localhost:5999/api/deleted/deleteProdukImage/${id}`,
-        {
-          method: "DELETE",
-        }
+      let responseHapus = await fetch(
+        `http://localhost:5999/api/deleteProdukImage/${id}`,
+        { method: "DELETE" }
       );
-      if (!responseDelete.ok) {
+      if (!responseHapus.ok) {
         MySwal.fire({
           title: "Failed!",
-          text: "data gagal di hapus!",
+          text: `${await responseHapus.text()}`,
           icon: "error",
         });
       } else {

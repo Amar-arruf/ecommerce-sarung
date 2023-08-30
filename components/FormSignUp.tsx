@@ -1,9 +1,11 @@
 "use client";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 export default function FormSignUp() {
   const MySwal = withReactContent(Swal);
+  const router = useRouter();
 
   const handleSubmit = async () => {
     console.log("connected");
@@ -113,6 +115,7 @@ export default function FormSignUp() {
         <button
           name="submit"
           className="mt-8 bg-gray-200  text-gray-400 p-2 w-full"
+          onClick={() => router.push("/login")}
         >
           Back to Sign
         </button>

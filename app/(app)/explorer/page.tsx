@@ -1,6 +1,7 @@
 import Footer from "@/app/componentsServer/Footer";
 import DefaultCard from "@/components/DefaultCard";
 import FormInput from "@/components/FormInput";
+import Link from "next/link";
 import Nav from "../../componentsServer/Nav";
 
 async function getData() {
@@ -54,35 +55,37 @@ export default async function explorer({
               {Data &&
                 Data.map(
                   (obj: { [key: string]: string | Number }, index: number) => (
-                    <div
-                      className="bg-gray-200 rounded-md p-2 mx-5 w-[200px]"
+                    <Link
+                      href={`/DetailProduk/${obj.Produk_ID as string}`}
                       key={index}
                     >
-                      <img
-                        src={obj.thumbnail as string}
-                        alt={obj.NAMA_CATEGORY as string}
-                        className="w-full h-auto"
-                      />
-                      <p className="pt-3 font-[700]">
-                        {obj.Nama_Produk as string}
-                      </p>
-                      <span className="py-3 inline-block text-sm text-gray-600">
-                        {obj.Category === 1
-                          ? "Gajah Duduk"
-                          : obj.Category === 2
-                          ? "Batik"
-                          : obj.Category === 3
-                          ? "Donggala"
-                          : obj.Category === 4
-                          ? "HBS"
-                          : obj.Category === 5
-                          ? "Ardan"
-                          : "Wadimor"}
-                      </span>
-                      <p className="text-red-700 font-semibold">
-                        {obj.Harga as string}
-                      </p>
-                    </div>
+                      <div className="bg-gray-200 rounded-md p-2 mx-5 w-[200px]">
+                        <img
+                          src={obj.thumbnail as string}
+                          alt={obj.NAMA_CATEGORY as string}
+                          className="w-full h-auto"
+                        />
+                        <p className="pt-3 font-[700]">
+                          {obj.Nama_Produk as string}
+                        </p>
+                        <span className="py-3 inline-block text-sm text-gray-600">
+                          {obj.Category === 1
+                            ? "Gajah Duduk"
+                            : obj.Category === 2
+                            ? "Batik"
+                            : obj.Category === 3
+                            ? "Donggala"
+                            : obj.Category === 4
+                            ? "HBS"
+                            : obj.Category === 5
+                            ? "Ardan"
+                            : "Wadimor"}
+                        </span>
+                        <p className="text-red-700 font-semibold">
+                          {obj.Harga as string}
+                        </p>
+                      </div>
+                    </Link>
                   )
                 )}
             </div>

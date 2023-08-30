@@ -3,6 +3,7 @@
 import DefaultCard from "@/components/DefaultCard";
 
 import { Label, TextInput, Button } from "flowbite-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useReducer, useState } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -107,6 +108,7 @@ const FormBio = () => {
 
   const [dataLogin, setDataLogin] = useState<any>();
   const [state, dispatch] = useReducer(Reducer, initialState);
+  const router = useRouter();
 
   useEffect(() => {
     let isApiSubscribe = true;
@@ -163,41 +165,91 @@ const FormBio = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    let bodyContent = `UserID=${state.userid}&AkunID=${
-      dataLogin.user.userID
-    }&Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${
-      state.alamat1
-    }&Alamat2=${state.alamat2}&provinsi=${state.provinsi}&Kota=${
-      state.city
-    }&kodepos=${Number(state.postkode)}`;
+    let bodyContent;
+    const getDataUser = await GetDataUser(dataLogin.user.userID);
 
-    try {
-      let response = await fetch(`http://localhost:5999/api/user/`, {
-        method: "POST",
-        body: bodyContent,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+    if (getDataUser.length > 0) {
+      bodyContent = `Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${
+        state.alamat1
+      }&Alamat2=${state.alamat2}&provinsi=${state.provinsi}&Kota=${
+        state.city
+      }&kodepos=${Number(state.postkode)}`;
+    } else {
+      bodyContent = `UserID=${state.userid}&AkunID=${
+        dataLogin.user.userID
+      }&Nama=${state.nama}&Telepon=${state.telepon}&Alamat1=${
+        state.alamat1
+      }&Alamat2=${state.alamat2}&provinsi=${state.provinsi}&Kota=${
+        state.city
+      }&kodepos=${Number(state.postkode)}`;
+    }
 
-      if (response.ok) {
+    // buat sebuah pengkondisian jika ada data
+    // maka tidak perlu  di tambahkan
+
+    if (getDataUser.length > 0) {
+      try {
+        const response = await fetch(
+          `http://localhost:5999/api/user/AkunID/${dataLogin.user.userID}`,
+          {
+            method: "POST",
+            body: bodyContent,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+
+        if (response.ok) {
+          MySwal.fire({
+            title: "Good Job!",
+            text: "data berhasil di update / tambah!",
+            icon: "success",
+          }).then((confirm) => {
+            window.location.reload();
+          });
+        } else {
+          MySwal.fire({
+            title: "Failed!",
+            text: await response.text(),
+            icon: "error",
+          });
+        }
+      } catch (error) {
         MySwal.fire({
-          title: "Good Job!",
-          text: "data berhasil di update / tambah!",
-          icon: "success",
-        });
-      } else {
-        MySwal.fire({
-          title: "Failed!",
-          text: "data gagal diupdate / tambah!",
           icon: "error",
+          text: `${error}`,
         });
       }
-    } catch (error) {
-      MySwal.fire({
-        icon: "error",
-        text: `${error}`,
-      });
+    } else {
+      try {
+        let response = await fetch(`http://localhost:5999/api/user/`, {
+          method: "POST",
+          body: bodyContent,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
+
+        if (response.ok) {
+          MySwal.fire({
+            title: "Good Job!",
+            text: "data berhasil di update / tambah!",
+            icon: "success",
+          });
+        } else {
+          MySwal.fire({
+            title: "Failed!",
+            text: await response.text(),
+            icon: "error",
+          });
+        }
+      } catch (error) {
+        MySwal.fire({
+          icon: "error",
+          text: `${error}`,
+        });
+      }
     }
   };
 

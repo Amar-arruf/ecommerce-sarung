@@ -18,6 +18,22 @@ async function getAuth() {
   return data;
 }
 
+async function getUser(userId: string) {
+  const response = await fetch(
+    `http://localhost:5999/api/user/AkunID/${userId}`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("failed Fetching data Get User");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 async function GetCart(userId: string) {
   const response = await fetch(
     `http://localhost:5999/api/keranjang/User_ID/${userId}`
@@ -45,10 +61,13 @@ export default function Nav() {
     let isApiSubscribed = true;
     async function fetchdata() {
       try {
-        const getAuthData = await getAuth();
-        setData(getAuthData);
-        const getCart = await GetCart(getAuthData.user.userID);
-        setCart(getCart);
+        if (pathname !== "/login") {
+          const getAuthData = await getAuth();
+          const getUserData = await getUser(getAuthData.user.userID);
+          setData(getUserData);
+          const getCart = await GetCart(getAuthData.user.userID);
+          setCart(getCart);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -78,6 +97,8 @@ export default function Nav() {
           text: "berhasil logout!",
           icon: "success",
         }).then((confirm) => {
+          document.cookie =
+            "username=connect.sid; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           router.push("/login");
         });
       } else {
@@ -137,13 +158,11 @@ export default function Nav() {
             label={
               <div className="flex items-center ">
                 <AvatarCustom
-                  alt={data.user.username}
+                  alt={data[0].Nama}
                   src={"https://reqres.in/img/faces/8-image.jpg"}
                 />
                 <Dropdown.Header className="!p-0">
-                  <span className="block text-sm w-[80px]">
-                    {data.user.username}
-                  </span>
+                  <span className="block text-sm w-[80px]">{data[0].Nama}</span>
                 </Dropdown.Header>
               </div>
             }

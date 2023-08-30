@@ -88,7 +88,10 @@ export default function FormLogin() {
         >
           Sign In to My Account
         </button>
-        <button className="mt-5 bg-gray-200  text-gray-400 p-2 w-full">
+        <button
+          className="mt-5 bg-gray-200  text-gray-400 p-2 w-full"
+          onClick={() => router.push("/signup")}
+        >
           Sign up
         </button>
       </div>
