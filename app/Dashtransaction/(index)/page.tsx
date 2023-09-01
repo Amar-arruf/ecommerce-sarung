@@ -28,7 +28,7 @@ export default async function home() {
             <DefaultCard key={index}>
               <div className="flex items-center justify-between">
                 <img
-                  src={data.thumbnail}
+                  src={data.url_image}
                   className="rounded-lg w-[44px] h-[44px]"
                 />
                 <span className="px-3">{data.Nama_Produk}</span>

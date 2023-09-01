@@ -18,7 +18,7 @@ async function getData(produkid: string) {
 
 async function getDataImageProduk(produkId: string) {
   const responseProdukImage = await fetch(
-    `http://localhost:5999/api/produkimage/ProdukId/S221`,
+    `http://localhost:5999/api/produkimage/ProdukId/${produkId}`,
     {
       method: "GET",
       cache: "no-store",

@@ -30,7 +30,7 @@ export default async function DetailProduk({
       <DefaultCard className="!p-8">
         <div className="flex">
           <img
-            src={data[0].thumbnail}
+            src={data[0].url_image}
             alt="thumbnail"
             className="w-[230px] h-auto rounded-3xl "
           />

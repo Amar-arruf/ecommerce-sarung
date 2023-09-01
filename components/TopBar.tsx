@@ -137,7 +137,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
                 />
               }
             >
-              <Dropdown.Header>
+              <Dropdown.Header onClick={() => router.push("/Dashsetting")}>
                 <span className="block text-sm">
                   {user.length > 0 ? user[0].Nama : "default"}
                 </span>

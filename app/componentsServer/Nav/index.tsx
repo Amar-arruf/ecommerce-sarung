@@ -64,7 +64,13 @@ export default function Nav() {
         if (pathname !== "/login") {
           const getAuthData = await getAuth();
           const getUserData = await getUser(getAuthData.user.userID);
-          setData(getUserData);
+          // jika array kosong
+          if (getUserData.length === 0) {
+            setData(getAuthData);
+          } else {
+            setData(getUserData);
+          }
+
           const getCart = await GetCart(getAuthData.user.userID);
           setCart(getCart);
         }
@@ -158,11 +164,19 @@ export default function Nav() {
             label={
               <div className="flex items-center ">
                 <AvatarCustom
-                  alt={data[0].Nama}
+                  alt={
+                    data.hasOwnProperty("user")
+                      ? data.user.username
+                      : data[0].Nama
+                  }
                   src={"https://reqres.in/img/faces/8-image.jpg"}
                 />
                 <Dropdown.Header className="!p-0">
-                  <span className="block text-sm w-[80px]">{data[0].Nama}</span>
+                  <span className="block text-sm w-[80px]">
+                    {data.hasOwnProperty("user")
+                      ? data.user.username
+                      : data[0].Nama}
+                  </span>
                 </Dropdown.Header>
               </div>
             }
