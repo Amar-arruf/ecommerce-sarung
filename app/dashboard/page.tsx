@@ -4,13 +4,15 @@ import Link from "next/link";
 // dapatkan data dari backend
 async function getData() {
   let getDataTransaction = await fetch(
-    `${process.env.HOST_PUBLIC_BACKEND}/api/getTransaction/getData`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/getTransaction/getData`,
     {
       method: "GET",
       cache: "no-store",
+      credentials: "include",
     }
   );
-  if (!getDataTransaction.ok) return [];
+  if (!getDataTransaction.ok) {
+  }
 
   const data = await getDataTransaction.json();
   return data;
@@ -18,7 +20,7 @@ async function getData() {
 
 async function getCustomer() {
   let getDataCustomer = await fetch(
-    `${process.env.HOST_PUBLIC_BACKEND}/api/userakun`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/userakun`,
     {
       method: "GET",
       cache: "no-store",
@@ -31,7 +33,7 @@ async function getCustomer() {
 
 async function getRevenue() {
   let getDataRevenue = await fetch(
-    "http://localhost:5999/api/revenue/getRevenue",
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/revenue/getRevenue`,
     {
       method: "GET",
       cache: "no-store",
