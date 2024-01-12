@@ -3,12 +3,15 @@ import type { NextRequest } from "next/server";
 
 const getSession = async (cookiesValues: string) => {
   try {
-    const result = await fetch(`http://localhost:5999/api/auth/getSession`, {
-      method: "GET",
-      headers: {
-        Cookie: `connect.sid=${cookiesValues}`,
-      },
-    });
+    const result = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/getSession`,
+      {
+        method: "GET",
+        headers: {
+          Cookie: `connect.sid=${cookiesValues}`,
+        },
+      }
+    );
 
     if (!result.ok) {
       return await result.text();
