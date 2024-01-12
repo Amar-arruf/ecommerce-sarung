@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
@@ -34,9 +34,7 @@ const ComponentState: React.FC<Props> = (prop) => {
     }
 
     setHandleSelect(value);
-    router.push(
-      `http://localhost:3000/Dashtransaction/${prop.id}?state=${value}`
-    );
+    router.reload();
   };
 
   return (

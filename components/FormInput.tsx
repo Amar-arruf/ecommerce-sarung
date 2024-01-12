@@ -13,13 +13,13 @@ export default function FormInput() {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
-    router.push(`http://localhost:3000/explorer?search=${value}`);
+    router.push(`/explorer?search=${value}`);
   };
 
   const handleSetRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setRadio(Number(value));
-    router.push(`http://localhost:3000/explorer?radio=${value}`);
+    router.push(`/explorer?radio=${value}`);
   };
   console.log(search);
   console.log(radio);

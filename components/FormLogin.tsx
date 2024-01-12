@@ -37,7 +37,7 @@ export default function FormLogin() {
           text: "berhasil login!",
           icon: "success",
         }).then((result) => {
-          router.push("http://localhost:3000/");
+          router.push("/");
         });
       } else {
         MySwal.fire({
