@@ -48,10 +48,13 @@ export default function createPage() {
 
     console.log(fileImage);
     try {
-      let response = await fetch("http://localhost:5999/api/form/addProduk", {
-        method: "POST",
-        body: BodyContent,
-      });
+      let response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/form/addProduk`,
+        {
+          method: "POST",
+          body: BodyContent,
+        }
+      );
       if (response.ok) {
         MySwal.fire({
           title: "Good Job!",
@@ -60,7 +63,11 @@ export default function createPage() {
         });
       }
     } catch (error) {
-      console.error(error);
+      MySwal.fire({
+        title: "failed",
+        text: `${error}`,
+        icon: "error",
+      });
     }
   };
 

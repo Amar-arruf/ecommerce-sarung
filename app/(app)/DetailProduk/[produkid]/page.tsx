@@ -5,12 +5,14 @@ import ButtonAddToCart from "@/components/ButtonAddToCart";
 
 async function getData(produkid: string) {
   const response = await fetch(
-    `http://localhost:5999/api/produk/Produk_ID/${produkid}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produk/Produk_ID/${produkid}`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
+  if (!response.ok) throw new Error("fetch gagal atau data ditemukan");
+
   const data = await response.json();
 
   return data;
@@ -18,12 +20,15 @@ async function getData(produkid: string) {
 
 async function getDataImageProduk(produkId: string) {
   const responseProdukImage = await fetch(
-    `http://localhost:5999/api/produkimage/ProdukId/${produkId}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produkimage/ProdukId/${produkId}`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
+  if (!responseProdukImage.ok)
+    throw new Error("fetch gagal mendapatkan image produk");
+
   const data = await responseProdukImage.json();
 
   return data;

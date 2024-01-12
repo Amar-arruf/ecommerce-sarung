@@ -5,10 +5,13 @@ import Link from "next/link";
 import Nav from "../../componentsServer/Nav";
 
 async function getData() {
-  const response = await fetch("http://localhost:5999/api/produk", {
-    method: "GET",
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produk`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
   const data = await response.json();
   return data;
 }

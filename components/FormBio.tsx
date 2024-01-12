@@ -61,10 +61,13 @@ function Reducer(state: State, action: Action): State {
 }
 
 async function GetDataUserLogin() {
-  let response = await fetch("http://localhost:5999/api/auth/getAuth", {
-    method: "GET",
-    credentials: "include",
-  });
+  let response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/getAuth`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
   if (!response.ok) {
     throw new Error("failed fetch error Getauth");
@@ -77,7 +80,7 @@ async function GetDataUserLogin() {
 
 async function GetDataUser(userid: number) {
   let response = await fetch(
-    `http://localhost:5999/api/user/AkunID/${userid}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/AkunID/${userid}`,
     {
       method: "GET",
     }
@@ -190,7 +193,7 @@ const FormBio = () => {
     if (getDataUser.length > 0) {
       try {
         const response = await fetch(
-          `http://localhost:5999/api/user/AkunID/${dataLogin.user.userID}`,
+          `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/AkunID/${dataLogin.user.userID}`,
           {
             method: "POST",
             body: bodyContent,
@@ -223,13 +226,16 @@ const FormBio = () => {
       }
     } else {
       try {
-        let response = await fetch(`http://localhost:5999/api/user/`, {
-          method: "POST",
-          body: bodyContent,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        });
+        let response = await fetch(
+          `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/`,
+          {
+            method: "POST",
+            body: bodyContent,
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
 
         if (response.ok) {
           MySwal.fire({

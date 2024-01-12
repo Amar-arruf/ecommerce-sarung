@@ -5,11 +5,14 @@ import AvatarCustom from "@/components/AvatarCustom";
 import { usePathname, useRouter } from "next/navigation";
 
 async function getAuth() {
-  const response = await fetch("http://localhost:5999/api/auth/getAuth", {
-    method: "GET",
-    cache: "no-cache",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/getAuth`,
+    {
+      method: "GET",
+      cache: "no-cache",
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     throw new Error("failed Fetching data GetAuth");
   }
@@ -20,7 +23,7 @@ async function getAuth() {
 
 async function getUser(userId: string) {
   const response = await fetch(
-    `http://localhost:5999/api/user/AkunID/${userId}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/AkunID/${userId}`,
     {
       method: "GET",
     }
@@ -36,7 +39,7 @@ async function getUser(userId: string) {
 
 async function GetCart(userId: string) {
   const response = await fetch(
-    `http://localhost:5999/api/keranjang/User_ID/${userId}`
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/keranjang/User_ID/${userId}`
   );
 
   if (!response.ok) {
@@ -64,7 +67,7 @@ export default function Nav() {
         if (pathname !== "/login") {
           const getAuthData = await getAuth();
           const getUserData = await getUser(getAuthData.user.userID);
-          // jika array kosong
+          // jika userdata array kosong
           if (getUserData.length === 0) {
             setData(getAuthData);
           } else {
@@ -91,7 +94,7 @@ export default function Nav() {
   const handleLogout = async () => {
     try {
       let responseLogout = await fetch(
-        "http://localhost:5999/api/auth/logout",
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/logout`,
         {
           method: "POST",
           credentials: "include",
@@ -127,31 +130,40 @@ export default function Nav() {
       <img src="/logo.png" alt="logo" className="w-[50px] h-auto" />
       <nav className="px-5 ml-auto">
         <ul className="flex items-center gap-y-2 gap-x-8">
-          <li className="p-2" onClick={() => router.push("/")}>
+          <li className="p-2 cursor-pointer" onClick={() => router.push("/")}>
             Home
           </li>
-          <li className="p-2" onClick={() => router.push("/explorer")}>
+          <li
+            className="p-2 cursor-pointer"
+            onClick={() => router.push("/explorer")}
+          >
             Explore
           </li>
-          <li className="p-2" onClick={() => router.push("/#About")}>
+          <li
+            className="p-2 cursor-pointer"
+            onClick={() => router.push("/#About")}
+          >
             About
           </li>
           {pathname === "/signup" || pathname === "/login" || data ? (
-            <li className="p-2 hidden">Sign up</li>
+            <li className="p-2 hidden cursor-pointer">Sign up</li>
           ) : (
-            <li className="p-2" onClick={() => router.push("/signup")}>
+            <li
+              className="p-2 cursor-pointer"
+              onClick={() => router.push("/signup")}
+            >
               Sign up
             </li>
           )}
         </ul>
       </nav>
       {pathname === "/signup" || pathname === "/login" || data ? (
-        <button className=" hidden bg-green-500 text-white p-3 w-[120px] rounded-lg">
+        <button className="cursor-pointer hidden bg-green-500 text-white p-3 w-[120px] rounded-lg">
           Sign in
         </button>
       ) : (
         <button
-          className="bg-green-500 text-white p-3 w-[120px] rounded-lg"
+          className="bg-green-500 cursor-pointer text-white p-3 w-[120px] rounded-lg"
           onClick={() => router.push("/login")}
         >
           Sign in

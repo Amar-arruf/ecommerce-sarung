@@ -2,12 +2,14 @@ import Link from "next/link";
 
 async function getData() {
   let responseProduk = await fetch(
-    "http://localhost:5999/api/limits/getProduk/getData/produk?limit=5",
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/limits/getProduk/getData/produk?limit=5`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
+
+  if (!responseProduk.ok) return [];
 
   const data = await responseProduk.json();
   return data;

@@ -22,7 +22,7 @@ const theme: CustomFlowbiteTheme = {
 
 async function getTransaction() {
   const response = await fetch(
-    "http://localhost:5999/api/getTransaction/getData",
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/getTransaction/getData`,
     {
       method: "GET",
       cache: "no-store",
@@ -38,7 +38,7 @@ async function getTransaction() {
 
 async function getuser() {
   const response = await fetch(
-    "http://localhost:5999/api/user/AkunID/1231134",
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/AkunID/1231134`,
     {
       method: "GET",
       cache: "no-store",
@@ -84,7 +84,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
   const handleLogout = async () => {
     try {
       let responseLogout = await fetch(
-        "http://localhost:5999/api/auth/logout",
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/logout`,
         {
           method: "POST",
           credentials: "include",

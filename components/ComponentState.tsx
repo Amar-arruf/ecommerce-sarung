@@ -19,7 +19,7 @@ const ComponentState: React.FC<Props> = (prop) => {
     try {
       console.log(prop.id);
       let responseUpdate = await fetch(
-        `http://localhost:5999/api/updatepayment/${prop.id}?State=${value}`,
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/updatepayment/${prop.id}?State=${value}`,
         {
           method: "PUT",
           cache: "no-store",

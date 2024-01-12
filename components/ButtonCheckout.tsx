@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 const CheckoutNow = (userid: string) => {
   let response = fetch(
-    `http://localhost:5999/api/createInvoice/addorder?user_id=${userid}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/createInvoice/addorder?user_id=${userid}`,
     {
       method: "GET",
     }
@@ -13,7 +13,7 @@ const CheckoutNow = (userid: string) => {
   response
     .then((response) => {
       if (!response.ok) {
-        console.log(response);
+        console.log("gagal mendapatkan pdf file");
       }
       return response.blob();
     })
@@ -36,10 +36,13 @@ const CheckoutNow = (userid: string) => {
 };
 
 async function GetDataUserLogin() {
-  let response = await fetch("http://localhost:5999/api/auth/getAuth", {
-    method: "GET",
-    credentials: "include",
-  });
+  let response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/auth/getAuth`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
 
   if (!response.ok) {
     throw new Error("failed fetch error Getauth");

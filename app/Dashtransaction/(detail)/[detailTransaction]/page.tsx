@@ -5,12 +5,14 @@ import DefaultCard from "@/components/DefaultCard";
 const getData = async (OrderId: string) => {
   // hit enpoint get detail transaction
   const Response = await fetch(
-    `http://localhost:5999/api/get/getTransactionDetail/getData/${OrderId}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/get/getTransactionDetail/getData/${OrderId}`,
     {
       method: "GET",
       cache: "no-cache",
     }
   );
+  if (!Response.ok)
+    throw new Error("gagal fetch data atau data tidak ditemukan");
 
   const getResponse = await Response.json();
   return getResponse;

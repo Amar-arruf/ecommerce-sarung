@@ -19,7 +19,7 @@ export default function ButtonAddToCart(prop: Props) {
     });
 
     let response = await fetch(
-      "http://localhost:5999/api/cart/addToCart/addItem/1",
+      `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/cart/addToCart/addItem/1`,
       {
         method: "POST",
         body: bodyContent,

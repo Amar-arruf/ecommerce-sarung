@@ -4,11 +4,14 @@ import DefaultCard from "@/components/DefaultCard";
 import Link from "next/link";
 
 async function getData() {
-  let response = await fetch("http://localhost:5999/api/produk", {
-    method: "GET",
-    cache: "no-cache",
-  });
-
+  let response = await fetch(
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produk`,
+    {
+      method: "GET",
+      cache: "no-cache",
+    }
+  );
+  if (!response.ok) return [];
   let data = await response.json();
   return data;
 }

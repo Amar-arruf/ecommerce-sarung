@@ -79,7 +79,7 @@ export const FormSetting = ({
 
     try {
       let response = await fetch(
-        `http://localhost:5999/api/user/userID/${props.getId}`,
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/user/userID/${props.getId}`,
         {
           method: "POST",
           body: bodyContent,

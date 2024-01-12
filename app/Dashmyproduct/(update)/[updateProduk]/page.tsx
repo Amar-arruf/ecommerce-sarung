@@ -2,13 +2,12 @@ import FormCustom from "@/components/FormCustom";
 
 async function getData(namaProduk: string) {
   let response = await fetch(
-    `http://localhost:5999/api/produk/Nama_Produk/${namaProduk}`,
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produk/Nama_Produk/${namaProduk}`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
-
   let data = await response.json();
   return data;
 }

@@ -2,13 +2,16 @@ import Link from "next/link";
 
 async function getData() {
   let responseCategory = await fetch(
-    "http://localhost:5999/api/getsCategory/getData",
+    `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/getsCategory/getData`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
 
+  if (!responseCategory.ok) {
+    return [];
+  }
   const data = await responseCategory.json();
   return data;
 }

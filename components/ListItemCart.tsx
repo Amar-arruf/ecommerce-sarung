@@ -13,11 +13,14 @@ export default function ListItemCart() {
 
   useEffect(() => {
     let isApiSubscribed = true;
-    const response = fetch("http://localhost:5999/api/listcart/getData", {
-      method: "GET",
-      cache: "no-store",
-      credentials: "include",
-    });
+    const response = fetch(
+      `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/listcart/getData`,
+      {
+        method: "GET",
+        cache: "no-store",
+        credentials: "include",
+      }
+    );
     response
       .then((response) => {
         if (isApiSubscribed) {
@@ -35,7 +38,7 @@ export default function ListItemCart() {
   const handleRemoveItem = async (CartID: string) => {
     try {
       let responseDelete = await fetch(
-        `http://localhost:5999/api/keranjang/CartID/${CartID}`,
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/keranjang/CartID/${CartID}`,
         {
           method: "DELETE",
         }

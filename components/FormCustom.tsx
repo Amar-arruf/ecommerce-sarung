@@ -83,7 +83,7 @@ function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5999/api/produk/Produk_ID/${Prop.getId}`,
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/produk/Produk_ID/${Prop.getId}`,
         {
           method: "POST",
           headers: {
@@ -122,7 +122,7 @@ function FormCustom({ Prop }: { Prop: { props: State; getId: string } }) {
       });
       try {
         const response = await fetch(
-          "http://localhost:5999/api/form/addImageProduk",
+          `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/form/addImageProduk`,
           {
             method: "POST",
             body: bodyContent,

@@ -18,13 +18,16 @@ export default function FormSignUp() {
     let BodyContent = `AkunID=${Akun_ID.value}&FullName=${fullname.value}&Email=${email.value}&Password=${password.value}`;
 
     try {
-      let response = await fetch("http://localhost:5999/api/signup/addUser", {
-        method: "POST",
-        body: BodyContent,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+      let response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/signup/addUser`,
+        {
+          method: "POST",
+          body: BodyContent,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
 
       if (response.ok) {
         MySwal.fire({

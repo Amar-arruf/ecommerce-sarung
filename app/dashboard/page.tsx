@@ -4,23 +4,27 @@ import Link from "next/link";
 // dapatkan data dari backend
 async function getData() {
   let getDataTransaction = await fetch(
-    "http://localhost:5999/api/getTransaction/getData",
+    `${process.env.HOST_PUBLIC_BACKEND}/api/getTransaction/getData`,
     {
       method: "GET",
       cache: "no-store",
     }
   );
+  if (!getDataTransaction.ok) return [];
 
   const data = await getDataTransaction.json();
   return data;
 }
 
 async function getCustomer() {
-  let getDataCustomer = await fetch("http://localhost:5999/api/userakun", {
-    method: "GET",
-    cache: "no-store",
-  });
-
+  let getDataCustomer = await fetch(
+    `${process.env.HOST_PUBLIC_BACKEND}/api/userakun`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+  if (!getDataCustomer.ok) return [];
   const data = await getDataCustomer.json();
   return data;
 }
@@ -33,6 +37,7 @@ async function getRevenue() {
       cache: "no-store",
     }
   );
+  if (getDataRevenue.ok) return [];
   const data = await getDataRevenue.json();
   return data;
 }

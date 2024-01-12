@@ -19,14 +19,17 @@ export default function FormLoginAdmin() {
     let BodyContent = `Email=${email.value}&Password=${password.value}`;
 
     try {
-      let response = await fetch("http://localhost:5999/api/login/getUser", {
-        method: "POST",
-        body: BodyContent,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        credentials: "include",
-      });
+      let response = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/login/getUser`,
+        {
+          method: "POST",
+          body: BodyContent,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
         MySwal.fire({
