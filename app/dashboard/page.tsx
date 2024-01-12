@@ -12,6 +12,7 @@ async function getData() {
     }
   );
   if (!getDataTransaction.ok) {
+    return [];
   }
 
   const data = await getDataTransaction.json();
@@ -39,7 +40,7 @@ async function getRevenue() {
       cache: "no-store",
     }
   );
-  if (getDataRevenue.ok) return [];
+  if (!getDataRevenue.ok) return [];
   const data = await getDataRevenue.json();
   return data;
 }
