@@ -24,8 +24,8 @@ export default async function home() {
       </span>
       <div>
         {data.map((data: { [key: string]: string }, index: number) => (
-          <Link href={`/Dashtransaction/${data.OrderID}`}>
-            <DefaultCard key={index}>
+          <Link key={index} href={`/Dashtransaction/${data.OrderID}`}>
+            <DefaultCard>
               <div className="flex items-center justify-between">
                 <img
                   src={data.url_image}

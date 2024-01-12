@@ -72,6 +72,7 @@ export default async function DetailProduk({
             {GetDataImage.map(
               (obj: { [key: string]: string }, index: number) => (
                 <img
+                  key={index}
                   src={obj.url_image}
                   alt={obj.ProdukId}
                   className="rounded w-full h-[120px]"
