@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 const getSession = async (cookiesValues: string) => {
   try {
@@ -25,7 +26,7 @@ const getSession = async (cookiesValues: string) => {
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const Cookies = request.cookies.get("connect.sid")?.value as string;
+  const Cookies = cookies().get("connect.sid")?.value as string;
   console.log(Cookies);
   const GetSession = await getSession(Cookies);
   console.log(getSession);
