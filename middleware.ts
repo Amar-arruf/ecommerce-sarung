@@ -9,7 +9,7 @@ const getSession = async (cookiesValues: string) => {
       {
         method: "GET",
         headers: {
-          Cookie: `connect.sid=${cookiesValues}`,
+          Cookie: `connect.sid=${cookiesValues};Secure; SameSite=None`,
         },
       }
     );
@@ -26,9 +26,9 @@ const getSession = async (cookiesValues: string) => {
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const Cookies = cookies().get("connect.sid")?.value as string;
+  const Cookies = cookies().get("connect.sid");
   console.log(Cookies);
-  const GetSession = await getSession(Cookies);
+  const GetSession = await getSession(Cookies?.value as string);
   console.log(getSession);
   if (!GetSession.hasOwnProperty("username")) {
     return NextResponse.redirect(new URL("/loginDashboard", request.url));
