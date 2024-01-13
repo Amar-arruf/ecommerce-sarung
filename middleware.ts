@@ -11,6 +11,7 @@ const getSession = async (cookiesValues: string) => {
         headers: {
           Cookie: `connect.sid=${cookiesValues};Secure; SameSite=None`,
         },
+        credentials: "include",
       }
     );
 
