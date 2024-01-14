@@ -26,6 +26,7 @@ async function getTransaction() {
     {
       method: "GET",
       cache: "no-store",
+      credentials: "include",
     }
   );
 
