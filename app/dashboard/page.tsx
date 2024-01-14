@@ -38,6 +38,7 @@ async function getRevenue() {
     {
       method: "GET",
       cache: "no-store",
+      credentials: "include",
     }
   );
   if (!getDataRevenue.ok) return [];

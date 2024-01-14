@@ -6,6 +6,7 @@ async function getData() {
     {
       method: "GET",
       cache: "no-store",
+      credentials: "include",
     }
   );
   if (!response.ok) {
