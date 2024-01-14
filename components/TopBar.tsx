@@ -81,7 +81,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
       isApiSubscribed = false;
       console.log("disconnect");
     };
-  }, []);
+  });
 
   const handleLogout = async () => {
     try {
