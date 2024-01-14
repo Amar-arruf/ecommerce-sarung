@@ -43,6 +43,7 @@ async function getuser() {
     {
       method: "GET",
       cache: "no-store",
+      credentials: "include",
     }
   );
 
