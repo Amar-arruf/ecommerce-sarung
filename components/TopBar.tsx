@@ -69,7 +69,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
         const GetUser = await getuser();
         const getTransact = await getTransaction();
 
-        if (isApiSubscribed) {
+        if (isApiSubscribed === true) {
           setUser(GetUser);
           setData(getTransact);
           console.log(user);
