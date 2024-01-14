@@ -15,7 +15,7 @@ export default function ButtonDelete(prop: Props) {
   const handleDeleted = async (id: unknown) => {
     try {
       let responseHapus = await fetch(
-        `${process.env.NEXT_PUBLIC_HOST_BACKEND}//api/deleteProdukImage/${id}`,
+        `${process.env.NEXT_PUBLIC_HOST_BACKEND}/api/deleteProdukImage/${id}`,
         { method: "DELETE" }
       );
       if (!responseHapus.ok) {
