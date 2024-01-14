@@ -31,7 +31,7 @@ async function getTransaction() {
   );
 
   if (!response.ok) {
-    throw new Error("Failed Fetch Data Get transaction");
+    return [];
   }
   const data = await response.json();
   return data;
@@ -48,7 +48,7 @@ async function getuser() {
   );
 
   if (!response.ok) {
-    throw new Error("Failed Fetch Data getuser");
+    return [];
   }
   const data = await response.json();
   return data;
