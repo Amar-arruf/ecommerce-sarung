@@ -65,6 +65,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
     async function fetchData() {
       try {
         console.log("fetch-api");
+        console.log(isApiSubscribed);
         const GetUser = await getuser();
         const getTransact = await getTransaction();
 
