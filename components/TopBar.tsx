@@ -70,6 +70,7 @@ export default function TopBar(props: { Title: string; Desc: string }) {
         if (isApiSubscribed) {
           setUser(GetUser);
           setData(getTransact);
+          console.log(user);
         }
       } catch (error) {
         console.log(error);
@@ -81,7 +82,6 @@ export default function TopBar(props: { Title: string; Desc: string }) {
       console.log("disconnect");
     };
   }, []);
-  console.log(user);
 
   const handleLogout = async () => {
     try {
